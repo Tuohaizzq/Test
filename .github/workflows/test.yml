@@ -1,21 +1,26 @@
 name: Automated Tests
-on: [push]
+on: [push, pull_request]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3  # 更新到v3
+      
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4  # 更新到v4
         with:
           python-version: '3.8'
+          
       - name: Install dependencies
         run: |
           pip install pytest selenium pytest-html webdriver-manager
+          
       - name: Run tests
-        run: pytest --html=report.html
+        run: pytest --html=report.html --self-contained-html
+        
       - name: Upload report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # 更新到v3
         with:
           name: test-report
           path: report.html
